@@ -12,8 +12,8 @@ sensor.set_auto_whitebal(False)  # must turn this off to prevent image washout..
 uart = pyb.UART(3,9600,timeout_char=1000)
 uart.init(9600,bits=8,parity = None, stop=1, timeout_char=1000)
 
-GRAYSCALE_THRESHOLD = [(64, 0)]
-ROI = [30, 5, 100, 25]
+GRAYSCALE_THRESHOLD = [(58, 0)]
+ROI = [30, 0, 100, 30]
 
 f_x = (2.8 / 3.984) * 160 # find_apriltags defaults to this if not set
 f_y = (2.8 / 2.952) * 120 # find_apriltags defaults to this if not set
@@ -22,6 +22,7 @@ c_y = 120 * 0.5 # find_apriltags defaults to this if not set (the image.h * 0.5)
 def degrees(radians):
    return (180 * radians) / math.pi
 
+find = 0
 while(True):
    find = 0
    img = sensor.snapshot()
