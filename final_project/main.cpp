@@ -25,11 +25,11 @@ int main() {
    steps = 0;
    
    char buf[64];
-   char buf_start[6] = "start";
-   char buf_end[4] = "end";
-   char buf_line[5] = "line";
-   char buf_circle[7] = "circle";
-   char buf_location[9] = "location";
+   char buf_start[7] = "start\n";
+   char buf_end[5] = "end\n";
+   char buf_line[6] = "line\n";
+   char buf_circle[8] = "circle\n";
+   char buf_location[10] = "location\n";
    xbee.write(buf_start, sizeof(buf_start));
    xbee.write(buf_line, sizeof(buf_line));
    while(1){
@@ -77,17 +77,17 @@ int main() {
             } 
             }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
       }
-      if(sub_task==1 && steps==400){
+      if(sub_task==1 && steps==200){
           sub_task = 2;
           steps = 0;
-          cxbee.write(buf_end, sizeof(buf_end));
+          xbee.write(buf_end, sizeof(buf_end));
           xbee.write(buf_line, sizeof(buf_line));
           xbee.write(buf_start, sizeof(buf_start));
           xbee.write(buf_circle, sizeof(buf_circle));
       }
       else if(sub_task==2){
           car.turn(-100, 0.7);
-          ThisThread::sleep_for(6000ms);
+          ThisThread::sleep_for(8000ms);
           car.stop();
           sub_task = 3;
           xbee.write(buf_end, sizeof(buf_end));
@@ -95,7 +95,7 @@ int main() {
           xbee.write(buf_start, sizeof(buf_start));
           xbee.write(buf_location, sizeof(buf_location));
       }
-      else if(sub_task==3 && steps==300){
+      else if(sub_task==3 && steps==200){
           sub_task = 0;
           xbee.write(buf_end, sizeof(buf_end));
           xbee.write(buf_location, sizeof(buf_location));
