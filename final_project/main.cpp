@@ -4,11 +4,13 @@
 #include "string.h"
 DigitalInOut ping(D12);
 Timer t;
+float val;
 
 Ticker servo_ticker;
 PwmOut pin5(D5), pin6(D6);
-BufferedSerial xbee(D10, D9);
+BufferedSerial xbee(D10,D9);
 BufferedSerial uart(D1,D0); //tx,rx
+BufferedSerial pc(USBTX,USBRX); //tx,rx
 
 BBCar car(pin5, pin6, servo_ticker);
 int sub_task;
@@ -16,17 +18,20 @@ int steps;
 int ping_cunt=0;
 
 int main() {
-   char buf[256], outbuf[256];
-   FILE *devin = fdopen(&xbee, "r");
-   FILE *devout = fdopen(&xbee, "w");
+   
    uart.set_baud(9600);
-   sub_task = 2;
+   pc.set_baud(9600);
+   sub_task = 1;
    steps = 0;
- 
-   sprintf(buf, "23");
-   fputc(buf, devout);
-   sprintf(buf, "Start: Follow the line");
-   fputc(buf, devout);
+   
+   char buf[64];
+   char buf_start[6] = "start";
+   char buf_end[4] = "end";
+   char buf_line[5] = "line";
+   char buf_circle[7] = "circle";
+   char buf_location[9] = "location";
+   xbee.write(buf_start, sizeof(buf_start));
+   xbee.write(buf_line, sizeof(buf_line));
    while(1){
       if(uart.readable()){                                                    
             char recv[1];
@@ -53,8 +58,8 @@ int main() {
             }else{
                car.stop();
             }
-            if(ping_cunt<10 && sub_task==3) ping_cunt++;
-            else if(ping_cunt==10 && sub_task==3){
+            if(ping_cunt<15 && sub_task==3) ping_cunt++;
+            else if(ping_cunt==15 && sub_task==3){
                ping_cunt = 0;
                ping.output();
                ping = 0; wait_us(200);
@@ -72,22 +77,28 @@ int main() {
             } 
             }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
       }
-    //   if(sub_task==1 && steps==100){
-    //       sub_task = 2;
-    //       steps = 0;
-    //       xbee.write("End: Follow the line", 21);
-    //       xbee.write("Start: Circle around the object", 32);
-    //   }
+      if(sub_task==1 && steps==400){
+          sub_task = 2;
+          steps = 0;
+          cxbee.write(buf_end, sizeof(buf_end));
+          xbee.write(buf_line, sizeof(buf_line));
+          xbee.write(buf_start, sizeof(buf_start));
+          xbee.write(buf_circle, sizeof(buf_circle));
+      }
       else if(sub_task==2){
-          //car.turn(-100, 0.7);
+          car.turn(-100, 0.7);
           ThisThread::sleep_for(6000ms);
           car.stop();
-          sub_task = 5;
-          xbee.write("End: Circle around the object", 30);
-          xbee.write("Start: Calibrate the location", 30);
+          sub_task = 3;
+          xbee.write(buf_end, sizeof(buf_end));
+          xbee.write(buf_circle, sizeof(buf_circle));
+          xbee.write(buf_start, sizeof(buf_start));
+          xbee.write(buf_location, sizeof(buf_location));
       }
-    //   else if(sub_task==3 && steps==100){
-    //       xbee.write("End: Calibrate the location", 28);
-    //   }
+      else if(sub_task==3 && steps==300){
+          sub_task = 0;
+          xbee.write(buf_end, sizeof(buf_end));
+          xbee.write(buf_location, sizeof(buf_location));
+      }
    }
 }
