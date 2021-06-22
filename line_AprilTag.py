@@ -12,14 +12,21 @@ sensor.set_auto_whitebal(False)  # must turn this off to prevent image washout..
 uart = pyb.UART(3,9600,timeout_char=1000)
 uart.init(9600,bits=8,parity = None, stop=1, timeout_char=1000)
 
-GRAYSCALE_THRESHOLD = [(0, 64)]
-ROI = [40, 10, 80, 25]
+GRAYSCALE_THRESHOLD = [(64, 0)]
+ROI = [30, 5, 100, 25]
+
+f_x = (2.8 / 3.984) * 160 # find_apriltags defaults to this if not set
+f_y = (2.8 / 2.952) * 120 # find_apriltags defaults to this if not set
+c_x = 160 * 0.5 # find_apriltags defaults to this if not set (the image.w * 0.5)
+c_y = 120 * 0.5 # find_apriltags defaults to this if not set (the image.h * 0.5)
+def degrees(radians):
+   return (180 * radians) / math.pi
 
 while(True):
    find = 0
    img = sensor.snapshot()
    if enable_lens_corr: img.lens_corr(1.8) # for 2.8mm lens...
-   blobs = img.find_blobs(GRAYSCALE_THRESHOLD, roi=ROI, merge=True)
+   blobs = img.find_blobs(GRAYSCALE_THRESHOLD, roi=ROI, merge=False)
    if blobs:
        largest_blob = 0
        most_pixels = 0
@@ -42,5 +49,17 @@ while(True):
        find = 1
    if find==0 :
        uart.write("n".encode())
+
+   for tag in img.find_apriltags(fx=f_x, fy=f_y, cx=c_x, cy=c_y): # defaults to TAG36H11
+      img.draw_rectangle(tag.rect(), color = (255, 0, 0))
+      img.draw_cross(tag.cx(), tag.cy(), color = (0, 255, 0))
+      angle = degrees(tag.y_rotation())
+      if ((angle <= 360 and angle >= 350) or (angle >= 0 and angle <= 10)):
+          uart.write("t")
+      #elif (angle <= 90 and angle >= 10):
+          #uart.write("l")
+      #elif (angle <= 350 and angle >= 270):
+          #uart.write("r")
+
 
 
