@@ -1,3 +1,4 @@
+
 #include "mbed.h"
 #include "bbcar.h"
 #include "bbcar_rpc.h"
@@ -67,9 +68,9 @@ int main() {
             }//4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
       }//read
       if(sub_task==1 && (left_flag||right_flag)){
-          if(left_flag) car.turn(-75, 0.5);
-          else if(right_flag) car.turn(-75, -0.5);
-          ThisThread::sleep_for(4000ms);
+          if(left_flag) car.turn(-75, -0.6);
+          else if(right_flag) car.turn(-75, 0.6);
+          ThisThread::sleep_for(3000ms);
           car.goStraight(-75);
           ThisThread::sleep_for(2000ms);
 
@@ -83,8 +84,8 @@ int main() {
           ThisThread::sleep_for(4000ms);
       }
       else if(sub_task==2){
-          car.turn(-100, 0.4);
-          ThisThread::sleep_for(13000ms);
+          car.turn(-100, -0.25);
+          ThisThread::sleep_for(8000ms);
           
           sub_task = 3;
           xbee.write(buf_end, sizeof(buf_end));
@@ -94,7 +95,7 @@ int main() {
           car.stop();
           ThisThread::sleep_for(4000ms);
           car.goStraight(-75);
-          ThisThread::sleep_for(2000ms);
+          ThisThread::sleep_for(1000ms);
           car.stop();
       }
       else if(sub_task==3 && tag==3){
