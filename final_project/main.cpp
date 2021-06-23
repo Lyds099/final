@@ -50,7 +50,7 @@ int main() {
 
             }
             }//1 line
-            if(sub_task==4 && recv[0]=='t'){
+            if(sub_task==3 && recv[0]=='t'){
                tag += 1;
                ping.output();
                ping = 0; wait_us(200);
