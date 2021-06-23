@@ -12,8 +12,8 @@ sensor.set_auto_whitebal(False)  # must turn this off to prevent image washout..
 uart = pyb.UART(3,9600,timeout_char=1000)
 uart.init(9600,bits=8,parity = None, stop=1, timeout_char=1000)
 
-GRAYSCALE_THRESHOLD = [(58, 0)]
-ROI = [30, 0, 100, 30]
+GRAYSCALE_THRESHOLD = [(44, 0)]
+ROI = [30, 0, 100, 25]
 
 f_x = (2.8 / 3.984) * 160 # find_apriltags defaults to this if not set
 f_y = (2.8 / 2.952) * 120 # find_apriltags defaults to this if not set
@@ -36,15 +36,17 @@ while(True):
                most_pixels = blobs[i].pixels()
                largest_blob = i
        img.draw_rectangle(blobs[largest_blob].rect())
-       deflection_angle = math.atan((blobs[largest_blob].cx()-80)/30)
+       deflection_angle = math.atan((blobs[largest_blob].cx()-80)/25)
        deflection_angle = math.degrees(deflection_angle)
        #print(deflection_angle)
        #right:- left:+
-       if abs(deflection_angle>20):
+       if abs(deflection_angle)>20:
            if deflection_angle > 0:
                uart.write("l".encode())
+               #print("left")
            else:
                uart.write("r".encode())
+               #print("right")
        else:
            uart.write("o".encode())
        find = 1
