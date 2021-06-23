@@ -19,4 +19,5 @@
 &emsp;&emsp;identify the AprilTag: https://drive.google.com/file/d/1QP9KwP7cGLBI8IrixVHnC6SwRH2BYodT/view?usp=sharing  
 &emsp;&emsp;message received by xbee_host: https://github.com/Lyds099/final/blob/master/Screen%20Shot%202021-06-22%20at%209.50.13%20PM.png?raw=true  
 &emsp;&emsp;printed ping value: https://github.com/Lyds099/final/blob/master/Screen%20Shot%202021-06-23%20at%2010.43.22%20AM.png?raw=true  
-&emsp;&emsp;demo video: https://drive.google.com/file/d/1DWOOF1leqN_l3N6XEvbYsNFd9uKaKFah/view?usp=sharing  
+&emsp;&emsp;demo video(left): https://drive.google.com/file/d/1DWOOF1leqN_l3N6XEvbYsNFd9uKaKFah/view?usp=sharing  
+&emsp;&emsp;demo video(right): https://drive.google.com/file/d/1lXGTvTD_hyYvb4Fm0LocXLSm9hR2x4DT/view?usp=sharing  
