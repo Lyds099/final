@@ -17,4 +17,5 @@
 2.what are the results  
 &emsp;&emsp;openMV find the line: https://github.com/Lyds099/final/blob/master/Screen%20Shot%202021-06-23%20at%209.46.45%20AM.png?raw=true  
 &emsp;&emsp;message received by xbee_host: https://github.com/Lyds099/final/blob/master/Screen%20Shot%202021-06-22%20at%209.50.13%20PM.png?raw=true  
+&emsp;&emsp;printed ping value: https://github.com/Lyds099/final/blob/master/Screen%20Shot%202021-06-23%20at%2010.43.22%20AM.png?raw=true  
 &emsp;&emsp;demo video: https://drive.google.com/file/d/1w7hV_bY0FcF1mFCSzg-fvYKluVABWX72/view?usp=sharing  
